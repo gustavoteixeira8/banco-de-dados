@@ -4,10 +4,46 @@ use database_mysql;
 -- Mostra as tabelas
 show tables;
 
+-- create database
+create database if not exists database_mysql;
+
+-- create tables
+create table if not exists users (
+	id int primary key auto_increment,
+  	first_name varchar(255) not null,
+  	last_name varchar(255) not null,
+  	email varchar(255) not null unique,
+  	password varchar(255) not null,
+  	salary decimal(15, 2),
+  	created_at timestamp default now() not null,
+  	updated_at timestamp default now() not null
+);
+
+create table if not exists roles (
+	id int primary key auto_increment,
+  	name varchar(255) not null,
+  	created_at timestamp default now() not null
+);
+
+create table if not exists profiles (
+	id int primary key auto_increment,
+  	bio text not null,
+  	user_id int not null,
+  	created_at timestamp default now() not null,
+  	foreign key (user_id) references users (id)
+);
+
+create table if not exists users_roles (
+	user_id int,
+  	role_id int,
+  	constraint PK_users_roles primary key (user_id, role_id),
+  	foreign key (user_id) references users (id),
+  	foreign key (role_id) references roles (id)
+);
+
 -- Descreve a tabela
+-- describe users;
 desc users;
-
-
 
 -- Insert values into table
 
